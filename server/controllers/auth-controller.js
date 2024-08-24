@@ -20,8 +20,12 @@ const register = async(req,res) => {
             return res.status(400).json({msg: "Email already exists!"})
         }
 
-        const data = await User.create({username,email,phone,password});
-        res.status(201).json(data)
+        const userCreated = await User.create({username,email,phone,password});
+
+        res.status(201).json({
+            msg: "Registration successfull!",
+            token: await userCreated.generateToken(),
+            userId: userCreated._id.toString()});
 
     } catch (error) {
         res.status(500).json("Internal server error!")
