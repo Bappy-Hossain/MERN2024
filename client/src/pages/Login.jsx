@@ -25,9 +25,9 @@ const Login = () => {
     <>
       <section>
         <main>
-          <div className="section-login">
+          <div className="section-registration">
             <div className="container grid grid-two-cols">
-              <div className="login-image">
+              <div className="registration-image">
                 <img
                   src="/images/login.png"
                   alt="login_image"
@@ -35,7 +35,7 @@ const Login = () => {
                   height="500"
                 />
               </div>
-              <div className="login-form">
+              <div className="registration-form">
                 <h1 className="main-heading mb-3">Login Form</h1>
                 <br />
                 <form onSubmit={handleSubmit}>
