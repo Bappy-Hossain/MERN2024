@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useAuth } from "../store/auth";
 
 const Contact = () => {
   const [contact, setContact] = useState({
@@ -6,6 +7,18 @@ const Contact = () => {
     email: "",
     message: "",
   });
+
+  const [userData, setUserData] = useState(true);
+  const { user } = useAuth();
+
+  if (userData && user) {
+    setContact({
+      username: user.username,
+      email: user.email,
+      message: "",
+    });
+    setUserData(false);
+  }
 
   const handleInput = (e) => {
     const name = e.target.name;
@@ -17,9 +30,26 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(contact);
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const response = await fetch("http://localhost:5000/api/form/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(contact),
+      });
+      if (response.ok) {
+        setContact({
+          username: user.username,
+          email: user.email,
+          message: "",
+        });
+      }
+    } catch (error) {
+      console.log("contact", error);
+    }
   };
 
   return (
